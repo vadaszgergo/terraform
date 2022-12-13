@@ -1,3 +1,4 @@
 terraform/aws/.terraform/
 aws/.terraform/
 .terraform
+.terraform.lock.hcl
