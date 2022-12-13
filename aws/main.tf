@@ -11,20 +11,28 @@ provider "aws" {
   region = "eu-central-1"
 }
 
-resource "aws_vpc" "vpc-192-168-1-0_24" {
-  cidr_block = "192.168.1.0/24"
+resource "aws_vpc" "vpc1" {
+  cidr_block = "10.0.0.0/16"
   instance_tenancy = "default"
   tags = {
-    Name = "vpc-192-168-1-0_24"
+    Name = "vpc1"
   }
 }
 
 
 
-resource "aws_subnet" "Subnet-2" {
-  vpc_id     = aws_vpc.vpc-192-168-1-0_24.id
-  cidr_block = "192.168.1.32/27"
+resource "aws_subnet" "vpc1-subnet1" {
+  vpc_id     = aws_vpc.vpc1.id
+  cidr_block = "10.0.100.0/24"
   tags = {
-    Name = "Subnet-2"
+    Name = "vpc1-subnet1"
+  }
+}
+
+resource "aws_subnet" "vpc1-subnet2" {
+  vpc_id     = aws_vpc.vpc1.id
+  cidr_block = "10.0.200.0/24"
+  tags = {
+    Name = "vpc1-subnet2"
   }
 }
