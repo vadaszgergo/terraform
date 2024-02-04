@@ -39,6 +39,13 @@ resource "google_compute_instance" "vm_instance_public" {
     }
   }
 
+  scheduling {
+    preemptible                 = true
+    automatic_restart           = false
+    provisioning_model          = "SPOT"
+    instance_termination_action = "STOP"
+  }
+
   network_interface {
     network       = google_compute_network.vpc_network.name
     subnetwork    = google_compute_subnetwork.subnet01.name
