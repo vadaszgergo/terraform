@@ -127,3 +127,4 @@ resource "azurerm_linux_virtual_machine" "example2" {
     version   = "latest"
   }
 }
+
