@@ -5,6 +5,13 @@ resource "aws_instance" "example_server" {
   subnet_id     = aws_subnet.public-subnet-01.id
   associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.web_sg.id]
+
+  user_data = <<-EOL
+  #!/bin/bash -xe
+  apt update
+  apt install apache2 -y
+  EOL
+
   tags = {
     Name = "TestVM"
   }

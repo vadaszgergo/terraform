@@ -31,11 +31,12 @@ resource "google_compute_instance" "vm_instance_public" {
   machine_type = "f1-micro"
   zone         = "us-central1-c"
   hostname     = "test-vm.local"
-  tags         = ["ssh","http"]
+  tags         = ["http"]
 
   boot_disk {
     initialize_params {
       image = "ubuntu-2004-focal-v20231213"
+      //image = "debian-12-bookworm-v20240515"
     }
   }
 
@@ -56,16 +57,16 @@ resource "google_compute_instance" "vm_instance_public" {
 } 
 
 resource "google_compute_firewall" "ssh" {
-  name = "allow-ssh"
+  name = "allow-ssh-http-https"
   allow {
-    ports    = ["22"]
+    ports    = ["22", "80", "443"]
     protocol = "tcp"
   }
   direction     = "INGRESS"
   network       = google_compute_network.vpc_network.id
   priority      = 1000
   source_ranges = ["0.0.0.0/0"]
-  target_tags   = ["ssh"]
+  target_tags   = ["http"]
 }
 
 

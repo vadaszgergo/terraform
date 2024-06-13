@@ -11,6 +11,12 @@ terraform {
 
 provider "aws" {
   region  = "eu-central-1"
+  profile = var.aws_profile
+}
+
+variable "aws_profile" {
+    type = string
+    default = "gergo.vadasz@outlook.com"
 }
 
 resource "aws_vpc" "vpc01" {
