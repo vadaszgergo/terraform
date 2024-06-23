@@ -21,7 +21,7 @@ resource "google_compute_network" "vpc_network" {
 
 resource "google_compute_subnetwork" "subnet01" {
   name          = "test-subnetwork"
-  ip_cidr_range = "10.2.0.0/24"
+  ip_cidr_range = "10.10.0.0/24"
   region        = "us-central1"
   network       = google_compute_network.vpc_network.id
 }
@@ -32,6 +32,7 @@ resource "google_compute_instance" "vm_instance_public" {
   zone         = "us-central1-c"
   hostname     = "test-vm.local"
   tags         = ["http"]
+  can_ip_forward = true
 
   boot_disk {
     initialize_params {
@@ -51,7 +52,7 @@ resource "google_compute_instance" "vm_instance_public" {
     network       = google_compute_network.vpc_network.name
     subnetwork    = google_compute_subnetwork.subnet01.name
     access_config {
-        nat_ip = google_compute_address.static.address
+        nat_ip = google_compute_address.vm1-static-ip.address
     }
   }
 } 
@@ -59,8 +60,7 @@ resource "google_compute_instance" "vm_instance_public" {
 resource "google_compute_firewall" "ssh" {
   name = "allow-ssh-http-https"
   allow {
-    ports    = ["22", "80", "443"]
-    protocol = "tcp"
+    protocol = "all"
   }
   direction     = "INGRESS"
   network       = google_compute_network.vpc_network.id
@@ -70,7 +70,15 @@ resource "google_compute_firewall" "ssh" {
 }
 
 
-  resource "google_compute_address" "static" {
+  resource "google_compute_address" "vm1-static-ip" {
   name = "ipv4-address"
 }
 
+
+resource "google_compute_route" "default" {
+  name        = "azure-route"
+  dest_range  = "10.2.0.0/24"
+  network     = google_compute_network.vpc_network.name
+  next_hop_ip = "10.10.0.2"
+  priority    = 100
+}

@@ -27,8 +27,44 @@ resource "azurerm_virtual_network" "vnet" {
 }
 
 resource "azurerm_subnet" "subnet" {
-  name                 = "subnet_192-168-1-0_24"
+  name                 = "subnet_10-2-0-0_24"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.2.0.0/24"]
+}
+
+
+#resource "azurerm_virtual_network" "vnet2" {
+#  name                = "tf-network2"
+#  location            = azurerm_resource_group.rg.location
+#  resource_group_name = azurerm_resource_group.rg.name
+#  address_space       = ["10.2.0.0/16"]
+#}
+
+#resource "azurerm_subnet" "subnet2" {
+#  name                 = "subnet_10-2-0-0_24"
+#  resource_group_name  = azurerm_resource_group.rg.name
+#  virtual_network_name = azurerm_virtual_network.vnet2.name
+#  address_prefixes     = ["10.2.0.0/24"]
+#}
+
+
+resource "azurerm_route_table" "rt01" {
+  name                          = "route-table-01"
+  location                      = azurerm_resource_group.rg.location
+  resource_group_name           = azurerm_resource_group.rg.name
+  disable_bgp_route_propagation = false
+
+  route {
+    name           = "route-to-gcp"
+    address_prefix = "10.10.0.0/16"
+    next_hop_type  = "VirtualAppliance"
+    next_hop_in_ip_address = "10.2.0.4"
+  }
+}
+
+
+resource "azurerm_subnet_route_table_association" "example" {
+  subnet_id      = azurerm_subnet.subnet.id
+  route_table_id = azurerm_route_table.rt01.id
 }
