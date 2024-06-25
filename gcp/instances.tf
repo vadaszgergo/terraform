@@ -1,4 +1,4 @@
-resource "google_compute_instance" "vm_2" {
+/*resource "google_compute_instance" "vm_2" {
   name         = "test-vm2"
   machine_type = "f1-micro"
   zone         = "us-central1-c"
@@ -32,3 +32,4 @@ resource "google_compute_instance" "vm_2" {
   resource "google_compute_address" "vm2-static-ip" {
   name = "ipv4-address-vm2"
 }
+*/

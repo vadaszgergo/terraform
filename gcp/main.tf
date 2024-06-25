@@ -75,10 +75,11 @@ resource "google_compute_firewall" "ssh" {
 }
 
 
-resource "google_compute_route" "default" {
+/*resource "google_compute_route" "default" {
   name        = "azure-route"
   dest_range  = "10.2.0.0/24"
   network     = google_compute_network.vpc_network.name
   next_hop_ip = "10.10.0.2"
   priority    = 100
 }
+*/
