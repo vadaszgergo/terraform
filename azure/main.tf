@@ -56,10 +56,10 @@ resource "azurerm_route_table" "rt01" {
   disable_bgp_route_propagation = false
 
   route {
-    name           = "route-to-gcp"
-    address_prefix = "10.10.0.0/16"
+    name           = "route-to-oracle"
+    address_prefix = "10.99.0.0/16"
     next_hop_type  = "VirtualAppliance"
-    next_hop_in_ip_address = "10.2.0.4"
+    next_hop_in_ip_address = "10.2.0.5"
   }
 }
 
