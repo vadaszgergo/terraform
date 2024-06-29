@@ -77,8 +77,8 @@ resource "google_compute_firewall" "ssh" {
 
 resource "google_compute_route" "default" {
   name        = "oracle-route"
-  dest_range  = "10.0.0.0/24"
+  dest_range  = "10.19.0.6/32"
   network     = google_compute_network.vpc_network.name
-  next_hop_ip = "10.10.0.2"
+  next_hop_ip = "10.10.0.3"
   priority    = 100
 }
